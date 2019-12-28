@@ -13,6 +13,7 @@ import _pickle as pickle
 import sklearn
 from sklearn.model_selection import cross_val_score
 from keras import backend as K
+from keras.utils.training_utils import multi_gpu_model
 
 def recall_m(y_true, y_pred):
         true_positives = K.sum(K.round(K.clip(y_true * y_pred, 0, 1)))
