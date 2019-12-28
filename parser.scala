@@ -9,7 +9,7 @@ val atts = lines.take(1).toList(0).split(", ").dropRight(1).zipWithIndex.map{cas
 val fw = new java.io.FileWriter("output.arff")
 fw.write("@relation tricoll\n")
 fw.write(atts)
-fw.write("\n@attribute time {\"Infinity\", \"hit\"}\n")
+fw.write("\n@attribute time {\"Inf\", \"hit\"}\n")
 fw.write("\n@data\n")
 lines foreach fw.write
 fw.close()

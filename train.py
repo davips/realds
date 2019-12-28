@@ -5,8 +5,6 @@ batch_size=1000000
 import tensorflow as tf
 from keras.models import Sequential 
 from keras.utils import to_categorical 
-
-
 import arff, numpy as np
 import pandas as pd
 import arff, numpy as np
@@ -37,7 +35,7 @@ X, Y = dataset[0], to_categorical(dataset[1].ravel())
 	
 def create_model():
   model = tf.keras.models.Sequential()
-  model.add(tf.keras.layers.Dense(100, input_shape=(12,), activation = 'relu'))
+  model.add(tf.keras.layers.Dense(100, input_shape=(6,), activation = 'relu'))
   model.add(tf.keras.layers.Dense(50, activation = 'relu'))
   model.add(tf.keras.layers.Dense(2, activation = 'softmax'))
   model.compile(loss = 'categorical_crossentropy' , optimizer = 'adam' , metrics = ['accuracy'] )
