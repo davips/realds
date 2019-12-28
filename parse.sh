@@ -1,0 +1,1 @@
+scala -nc parser.scala
