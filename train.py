@@ -1,4 +1,4 @@
-n_split=10
+n_split=3
 epochs=10000
 batch_size=1000000
 class_weight = {0: 1., 1: 50.}
@@ -13,6 +13,7 @@ import _pickle as pickle
 import sklearn
 from sklearn.model_selection import cross_val_score
 from keras import backend as K
+
 def recall_m(y_true, y_pred):
         true_positives = K.sum(K.round(K.clip(y_true * y_pred, 0, 1)))
         possible_positives = K.sum(K.round(K.clip(y_true, 0, 1)))
@@ -56,6 +57,7 @@ def create_model():
   model.add(tf.keras.layers.Dense(5, input_shape=(6,), activation = 'relu'))
   #model.add(tf.keras.layers.Dense(50, activation = 'relu'))
   model.add(tf.keras.layers.Dense(2, activation = 'softmax'))
+  model = multi_gpu_model(model)
   model.compile(loss = 'categorical_crossentropy' , optimizer = 'adam' , metrics = ['accuracy', f1_m] )
   return model
 
