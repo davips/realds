@@ -30,7 +30,7 @@ def read_data_frame(df, filename, target='class'):
     name = filename.split('/')[-1] + '_' + uuid(pickle.dumps((X, Y)))
     return X,Y
 
-dataset = read_arff('output.arff', 'time')
+dataset = read_arff('reg.arff', 'time')
 sorted(sklearn.metrics.SCORERS.keys())
 
 from sklearn.neural_network import MLPRegressor as MLP

@@ -42,7 +42,7 @@ def read_data_frame(df, filename, target='class'):
     name = filename.split('/')[-1] + '_' + uuid(pickle.dumps((X, Y)))
     return X,Y
 
-dataset = read_arff('dataset.arff', 'time')
+dataset = read_arff('cla.arff', 'time')
 X, Y = dataset[0], to_categorical(dataset[1].ravel())
 	
 def precision_m(y_true, y_pred):
