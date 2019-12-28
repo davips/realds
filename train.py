@@ -34,6 +34,12 @@ def read_data_frame(df, filename, target='class'):
 dataset = read_arff('output.arff', 'time')
 X, Y = dataset[0], to_categorical(dataset[1].ravel())
 	
+def precision_m(y_true, y_pred):
+        true_positives = K.sum(K.round(K.clip(y_true * y_pred, 0, 1)))
+        predicted_positives = K.sum(K.round(K.clip(y_pred, 0, 1)))
+        precision = true_positives / (predicted_positives + K.epsilon())
+        return precision
+    
 def f1_m(y_true, y_pred):
     precision = precision_m(y_true, y_pred)
     recall = recall_m(y_true, y_pred)
