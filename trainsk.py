@@ -4,7 +4,7 @@ epochs=20000
 batch_size=800000
 class_weight = {0: 1., 1: 50.}
 optimizer = 'adam'
-gpus=0
+gpus=2
 
 import tensorflow as tf
 from tensorflow.keras.models import Sequential 
@@ -70,16 +70,20 @@ def create_model():
   model.compile(loss = 'categorical_crossentropy' , optimizer=optimizer, metrics = ['accuracy', f1_m] )
   return model
 
+from sklearn.neural_network import MLPClassifier as MLP
 from sklearn.model_selection import KFold 
+from sklearn.metrics import accuracy_score as acc
+
 res = []
 for train_index,test_index in KFold(n_split, shuffle=False).split(X): 
   x_train,x_test=X[train_index],X[test_index] 
   y_train,y_test=Y[train_index],Y[test_index] 
    
-  model=create_model() 
-  model.fit(x_train, y_train, epochs=epochs, batch_size=batch_size, class_weight=class_weight) 
+  model=MLP(max_iter=epochs, hidden_layer_sizes=(fst, ), batch_size=batch_size)
+  model.fit(x_train, y_train) 
    
-  res.append(model.evaluate(x_test, y_test))
+   	
+  res.append(acc(y_test, model.predict(x_test)))
 
 print(res)
 #model.fit(x_train, to_categorical(y_train), epochs=10, batch_size=393889, validation_split=0.33)  
