@@ -58,7 +58,7 @@ def create_model():
   model.add(tf.keras.layers.Dense(5, input_shape=(6,), activation = 'relu'))
   #model.add(tf.keras.layers.Dense(50, activation = 'relu'))
   model.add(tf.keras.layers.Dense(2, activation = 'softmax'))
-  model = multi_gpu_model(model)
+  model = multi_gpu_model(model, gpus=None)
   model.compile(loss = 'categorical_crossentropy' , optimizer = 'adam' , metrics = ['accuracy', f1_m] )
   return model
 
