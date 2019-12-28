@@ -1,6 +1,7 @@
-n_split=3 
-epochs=50
+n_split=10
+epochs=10000
 batch_size=1000000
+class_weight = {0: 1., 1: 50.}
 
 import tensorflow as tf
 from keras.models import Sequential 
@@ -33,12 +34,17 @@ def read_data_frame(df, filename, target='class'):
 dataset = read_arff('output.arff', 'time')
 X, Y = dataset[0], to_categorical(dataset[1].ravel())
 	
+def f1_m(y_true, y_pred):
+    precision = precision_m(y_true, y_pred)
+    recall = recall_m(y_true, y_pred)
+    return 2*((precision*recall)/(precision+recall+K.epsilon()))
+
 def create_model():
   model = tf.keras.models.Sequential()
   model.add(tf.keras.layers.Dense(100, input_shape=(6,), activation = 'relu'))
   model.add(tf.keras.layers.Dense(50, activation = 'relu'))
   model.add(tf.keras.layers.Dense(2, activation = 'softmax'))
-  model.compile(loss = 'categorical_crossentropy' , optimizer = 'adam' , metrics = ['accuracy'] )
+  model.compile(loss = 'categorical_crossentropy' , optimizer = 'adam' , metrics = ['accuracy', f1_m] )
   return model
 
 from sklearn.model_selection import KFold 
@@ -48,7 +54,7 @@ for train_index,test_index in KFold(n_split, shuffle=False).split(X):
   y_train,y_test=Y[train_index],Y[test_index] 
    
   model=create_model() 
-  model.fit(x_train, y_train, epochs=epochs, batch_size=batch_size) 
+  model.fit(x_train, y_train, epochs=epochs, batch_size=batch_size, class_weight=class_weight) 
    
   res.append(model.evaluate(x_test, y_test))
 
