@@ -2,6 +2,7 @@ n_split=3
 epochs=1000
 batch_size=800000
 class_weight = {0: 1., 1: 50.}
+gpus=2
 
 import tensorflow as tf
 from tensorflow.keras.models import Sequential 
@@ -58,7 +59,7 @@ def create_model():
   model.add(tf.keras.layers.Dense(5, input_shape=(6,), activation = 'relu'))
   #model.add(tf.keras.layers.Dense(50, activation = 'relu'))
   model.add(tf.keras.layers.Dense(2, activation = 'softmax'))
-  model = multi_gpu_model(model, gpus=None)
+  model = multi_gpu_model(model, gpus=gpus)
   model.compile(loss = 'categorical_crossentropy' , optimizer = 'adam' , metrics = ['accuracy', f1_m] )
   return model
 
