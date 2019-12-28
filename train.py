@@ -53,8 +53,8 @@ def f1_m(y_true, y_pred):
 
 def create_model():
   model = tf.keras.models.Sequential()
-  model.add(tf.keras.layers.Dense(100, input_shape=(6,), activation = 'relu'))
-  model.add(tf.keras.layers.Dense(50, activation = 'relu'))
+  model.add(tf.keras.layers.Dense(5, input_shape=(6,), activation = 'relu'))
+  #model.add(tf.keras.layers.Dense(50, activation = 'relu'))
   model.add(tf.keras.layers.Dense(2, activation = 'softmax'))
   model.compile(loss = 'categorical_crossentropy' , optimizer = 'adam' , metrics = ['accuracy', f1_m] )
   return model
