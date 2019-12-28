@@ -29,7 +29,7 @@ hit a@(Ball _ ra _ pa va) b@(Wall _ n) = Hit a b time
     projP = pa `dot` n
     projV = va `dot` n
     dist = abs $ (width / 2 - ra) - projP
-    time = positivate $ dist / projV
+    time = positivate $ dist / projV -- TODO: is g considered here?
 hit (Wall _ _) _ = error "Walls are not allowed in the first argument of hit!"
 
 advance :: Double -> [Obj] -> [Obj]
@@ -39,13 +39,16 @@ advance dt objs
   | timeToHit <= dt = advance (dt - timeToHit) $ doHits nextHits $ map (walk timeToHit) objs
   | otherwise = map (walk dt) objs
   where
-    toArff l = [intercalate ", " [intercalate ", " $ map prt $ attributes a b, discretize t] | (Hit a@Ball {} b@Ball {} t) <- l]
+    toArff l =
+      [intercalate ", " [intercalate ", " $ map prt $ attributes a b, discretize t] | (Hit a@Ball {} b@Ball {} t) <- l]
     attributes a b = [pos a - pos b, vel a - vel b]
-    discretize t = if t == 1 / 0 then "Inf" else "hit"
+    discretize t =
+      if t == 1 / 0
+        then "999999.9"
+        else show t
     prt (V3 a b c) = intercalate ", " $ map show [a, b, c]
-
     hits = d2 (toArff tmp) tmp
-    tmp = concat paralellize    
+    tmp = concat paralellize
     paralellize = parMap rdeepseq combine objs
     combine a = [hit a b | b <- allo, oid a < oid b] -- TODO: combinations (of ids/Ints) can be calculated globally once (if there was an array of Objs)
     allo = objs ++ walls

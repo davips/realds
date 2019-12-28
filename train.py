@@ -1,7 +1,9 @@
-n_split=3
-epochs=1000
+fst, snd = 8, 0
+n_split=5
+epochs=240
 batch_size=800000
 class_weight = {0: 1., 1: 50.}
+optimizer = 'adam'
 gpus=2
 
 import tensorflow as tf
@@ -56,11 +58,16 @@ def f1_m(y_true, y_pred):
 
 def create_model():
   model = tf.keras.models.Sequential()
-  model.add(tf.keras.layers.Dense(5, input_shape=(6,), activation = 'relu'))
-  #model.add(tf.keras.layers.Dense(50, activation = 'relu'))
-  model.add(tf.keras.layers.Dense(2, activation = 'softmax'))
-  model = multi_gpu_model(model, gpus=gpus)
-  model.compile(loss = 'categorical_crossentropy' , optimizer = 'adam' , metrics = ['accuracy', f1_m] )
+  if fst>0:
+    model.add(tf.keras.layers.Dense(fst, input_shape=(6,), activation = 'relu'))
+    if snd>0:
+      model.add(tf.keras.layers.Dense(snd, activation = 'relu'))
+    model.add(tf.keras.layers.Dense(2, activation = 'softmax'))
+  else:
+    model.add(tf.keras.layers.Dense(2, input_shape=(6,), activation = 'softmax'))
+  if gpus > 0:
+    model = multi_gpu_model(model, gpus=gpus)
+  model.compile(loss = 'categorical_crossentropy' , optimizer=optimizer, metrics = ['accuracy', f1_m] )
   return model
 
 from sklearn.model_selection import KFold 
