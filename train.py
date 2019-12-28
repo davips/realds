@@ -13,7 +13,12 @@ import _pickle as pickle
 import sklearn
 from sklearn.model_selection import cross_val_score
 from keras import backend as K
-
+def recall_m(y_true, y_pred):
+        true_positives = K.sum(K.round(K.clip(y_true * y_pred, 0, 1)))
+        possible_positives = K.sum(K.round(K.clip(y_true, 0, 1)))
+        recall = true_positives / (possible_positives + K.epsilon())
+        return recall
+    
 def read_arff(filename, target='class'):
     data = arff.load(open(filename, 'r'), encode_nominal=True)
     df = pd.DataFrame(data['data'],
