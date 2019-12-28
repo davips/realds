@@ -45,7 +45,7 @@ def create_model():
 
 from sklearn.model_selection import KFold 
 res = []
-for train_index,test_index in KFold(n_split).split(X): 
+for train_index,test_index in KFold(n_split, shuffle=False).split(X): 
   x_train,x_test=X[train_index],X[test_index] 
   y_train,y_test=Y[train_index],Y[test_index] 
    
