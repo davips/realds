@@ -13,7 +13,11 @@ data State = State Double [Obj] Int
 data Hit = Hit {objA :: Obj, objB :: Obj, timeLeft :: Double} deriving (Show, Generic, NFData)
 
 world :: [Obj]
-world = ring 10 30 3 ++ [Ball (1000) 20 (vol 20) (V3 (0.1) (-150) (0)) (V3 (21) (-170) 0)]  -- ++ balls 0 -- ++ sphere 5000 0.1 0.04 ++ sphere 10000 0.15 0.2 ++ sphere 15000 0.15 0.01 ++ 
+world = ring 10 120 30 170 ++ [Ball (1000) 30 (vol 30) (V3 (0.1) (-100) (0)) (V3 (-121) (570) 100)]
+  ++ ring 50 120 30 90
+   ++ [Ball (2000) 30 (vol 30) (V3 (-120) (-50) (0)) (V3 (-11) (-420) (-100))]
+    ++ [Ball (3000) 30 (vol 30) (V3 (-100) (-150) (0)) (V3 (20) (-390) 0)]
+    -- ++ balls 0 -- ++ sphere 5000 0.1 0.04 ++ sphere 10000 0.15 0.2 ++ sphere 15000 0.15 0.01 ++
 
 width :: Double
 width = 400
@@ -27,10 +31,10 @@ elasticity = 1
 -- sphere :: Int -> Double -> Double -> [Obj]
 -- sphere idn rad atomR = ring idn rad atomR
 
-ring :: Int -> Double -> Double -> [Obj]
-ring idn rad r = [Ball (idn + i) r (vol r) (V3 (x i) 150 (y i)) (V3 0 0 0) | i <- [1..n]]
+ring :: Int -> Double -> Double -> Double -> [Obj]
+ring idn rad r ys = [Ball (idn + i) r (vol r) (V3 (x i) ys (y i)) (V3 0 0 0) | i <- [1..n]]
     where     
-        n = round $ len rad / (1.9 * r)
+        n = round $ len rad / (4 * r)  -- 1.9 to have intersection
         arc = 2 * pi / (fromIntegral n)
         x i = rad * (cos $ (fromIntegral i) * arc)
         y i = rad * (sin $ (fromIntegral i) * arc)
