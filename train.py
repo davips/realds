@@ -1,6 +1,6 @@
 fst, snd = 8, 0
 n_split=5
-epochs=20000
+epochs=200000
 batch_size=800000
 class_weight = {0: 1., 1: 50.}
 optimizer = 'adam'
