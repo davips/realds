@@ -1,6 +1,6 @@
 n_split=3
-epochs=10000
-batch_size=1000000
+epochs=1000
+batch_size=800000
 class_weight = {0: 1., 1: 50.}
 
 import tensorflow as tf
