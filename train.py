@@ -4,16 +4,16 @@ batch_size=800000
 class_weight = {0: 1., 1: 50.}
 
 import tensorflow as tf
-from keras.models import Sequential 
-from keras.utils import to_categorical 
+from tensorflow.keras.models import Sequential 
+from tensorflow.keras.utils import to_categorical 
 import arff, numpy as np
 import pandas as pd
 import arff, numpy as np
 import _pickle as pickle
 import sklearn
 from sklearn.model_selection import cross_val_score
-from keras import backend as K
-from keras.utils.multi_gpu_utils import multi_gpu_model
+from tensorflow.keras import backend as K
+from tensorflow.keras.utils import multi_gpu_model
 
 def recall_m(y_true, y_pred):
         true_positives = K.sum(K.round(K.clip(y_true * y_pred, 0, 1)))
