@@ -12,6 +12,7 @@ import arff, numpy as np
 import _pickle as pickle
 import sklearn
 from sklearn.model_selection import cross_val_score
+from keras import backend as K
 
 def read_arff(filename, target='class'):
     data = arff.load(open(filename, 'r'), encode_nominal=True)
