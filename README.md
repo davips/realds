@@ -1,5 +1,5 @@
 # realds
-Realistic synthetic datasets
+Realistic synthetic datasets generator
 
 [Still experimental, not intended to be used by third parties]
 
